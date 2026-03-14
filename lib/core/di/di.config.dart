@@ -20,6 +20,10 @@ import 'package:hungry_app/data/data_source/auth/auth_remote_data_source.dart'
     as _i1008;
 import 'package:hungry_app/data/data_source/auth/auth_remote_data_source_impl.dart'
     as _i1063;
+import 'package:hungry_app/data/data_source/cart/cart_remote_data_source.dart'
+    as _i507;
+import 'package:hungry_app/data/data_source/cart/cart_remote_data_source_impl.dart'
+    as _i351;
 import 'package:hungry_app/data/data_source/home/home_remote_data_source.dart'
     as _i692;
 import 'package:hungry_app/data/data_source/home/home_remote_data_source_impl.dart'
@@ -29,15 +33,23 @@ import 'package:hungry_app/data/data_source/product_options/product_options_remo
 import 'package:hungry_app/data/data_source/product_options/product_options_remote_data_source_impl.dart'
     as _i762;
 import 'package:hungry_app/data/repositories/auth/auth_repo_impl.dart' as _i952;
+import 'package:hungry_app/data/repositories/cart/cart_repo_impl.dart' as _i611;
 import 'package:hungry_app/data/repositories/home/home_repo_impl.dart' as _i780;
 import 'package:hungry_app/data/repositories/product_options/product_options_repo_impl.dart'
     as _i697;
 import 'package:hungry_app/domain/repositories/auth/auth_repo.dart' as _i870;
+import 'package:hungry_app/domain/repositories/cart/cart_repo.dart' as _i121;
 import 'package:hungry_app/domain/repositories/home/home_repo.dart' as _i777;
 import 'package:hungry_app/domain/repositories/product_options/product_options_repo.dart'
     as _i890;
 import 'package:hungry_app/domain/use_case/auth/login_use_case.dart' as _i938;
 import 'package:hungry_app/domain/use_case/auth/sign_up_use_case.dart' as _i343;
+import 'package:hungry_app/domain/use_case/cart/add_to_cart_use_case.dart'
+    as _i569;
+import 'package:hungry_app/domain/use_case/cart/delete_cart_item_use_case.dart'
+    as _i114;
+import 'package:hungry_app/domain/use_case/cart/get_cart_use_case.dart'
+    as _i651;
 import 'package:hungry_app/domain/use_case/home/get_categories_use_case.dart'
     as _i196;
 import 'package:hungry_app/domain/use_case/home/get_products_use_case.dart'
@@ -47,6 +59,7 @@ import 'package:hungry_app/domain/use_case/product_options/get_side_options_use_
 import 'package:hungry_app/domain/use_case/product_options/get_toppings_use_case.dart'
     as _i765;
 import 'package:hungry_app/features/auth/cubit/auth_cubit.dart' as _i679;
+import 'package:hungry_app/features/cart/cubit/cart_cubit.dart' as _i289;
 import 'package:hungry_app/features/home/cubit/home_cubit.dart' as _i505;
 import 'package:hungry_app/features/product/cubit/product_options_cubit.dart'
     as _i819;
@@ -60,32 +73,29 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final networkModule = _$NetworkModule();
-    gh.lazySingleton<_i361.Dio>(() => networkModule.dio());
-    gh.lazySingleton<_i829.ProductOptionsRemoteDataSource>(
-      () => _i762.ProductOptionsRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
     gh.lazySingleton<_i817.AuthLocalDataSource>(
       () => _i767.AuthLocalDataSourceImpl(),
     );
+    gh.lazySingleton<_i361.Dio>(
+      () => networkModule.dio(gh<_i817.AuthLocalDataSource>()),
+    );
+    gh.lazySingleton<_i507.CartRemoteDataSource>(
+      () => _i351.CartRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i692.HomeRemoteDataSource>(
       () => _i266.HomeRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
-    gh.lazySingleton<_i890.ProductOptionsRepo>(
-      () => _i697.ProductOptionsRepoImpl(
-        gh<_i829.ProductOptionsRemoteDataSource>(),
-      ),
-    );
-    gh.lazySingleton<_i599.GetSideOptionsUseCase>(
-      () => _i599.GetSideOptionsUseCase(gh<_i890.ProductOptionsRepo>()),
-    );
-    gh.lazySingleton<_i765.GetToppingsUseCase>(
-      () => _i765.GetToppingsUseCase(gh<_i890.ProductOptionsRepo>()),
     );
     gh.lazySingleton<_i1008.AuthRemoteDataSource>(
       () => _i1063.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i777.HomeRepo>(
       () => _i780.HomeRepoImpl(gh<_i692.HomeRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i121.CartRepository>(
+      () => _i611.CartRepositoryImpl(gh<_i507.CartRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i829.ProductOptionsRemoteDataSource>(
+      () => _i762.ProductOptionsRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i870.AuthRepo>(
       () => _i952.AuthRepoImpl(
@@ -105,20 +115,47 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i343.SignUpUseCase>(
       () => _i343.SignUpUseCase(gh<_i870.AuthRepo>()),
     );
-    gh.factory<_i819.ProductOptionsCubit>(
-      () => _i819.ProductOptionsCubit(
-        gh<_i765.GetToppingsUseCase>(),
-        gh<_i599.GetSideOptionsUseCase>(),
+    gh.lazySingleton<_i890.ProductOptionsRepo>(
+      () => _i697.ProductOptionsRepoImpl(
+        gh<_i829.ProductOptionsRemoteDataSource>(),
       ),
     );
     gh.factory<_i679.AuthCubit>(
       () =>
           _i679.AuthCubit(gh<_i343.SignUpUseCase>(), gh<_i938.LogInUseCase>()),
     );
+    gh.lazySingleton<_i599.GetSideOptionsUseCase>(
+      () => _i599.GetSideOptionsUseCase(gh<_i890.ProductOptionsRepo>()),
+    );
+    gh.lazySingleton<_i765.GetToppingsUseCase>(
+      () => _i765.GetToppingsUseCase(gh<_i890.ProductOptionsRepo>()),
+    );
+    gh.lazySingleton<_i569.AddToCartUseCase>(
+      () => _i569.AddToCartUseCase(gh<_i121.CartRepository>()),
+    );
+    gh.lazySingleton<_i114.DeleteCartItemUseCase>(
+      () => _i114.DeleteCartItemUseCase(gh<_i121.CartRepository>()),
+    );
+    gh.lazySingleton<_i651.GetCartUseCase>(
+      () => _i651.GetCartUseCase(gh<_i121.CartRepository>()),
+    );
     gh.factory<_i505.HomeCubit>(
       () => _i505.HomeCubit(
         gh<_i723.GetProductsUseCase>(),
         gh<_i196.GetCategoriesUseCase>(),
+      ),
+    );
+    gh.factory<_i289.CartCubit>(
+      () => _i289.CartCubit(
+        gh<_i569.AddToCartUseCase>(),
+        gh<_i651.GetCartUseCase>(),
+        gh<_i114.DeleteCartItemUseCase>(),
+      ),
+    );
+    gh.factory<_i819.ProductOptionsCubit>(
+      () => _i819.ProductOptionsCubit(
+        gh<_i765.GetToppingsUseCase>(),
+        gh<_i599.GetSideOptionsUseCase>(),
       ),
     );
     return this;

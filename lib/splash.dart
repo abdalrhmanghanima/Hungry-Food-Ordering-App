@@ -16,7 +16,6 @@ class SplashView extends StatefulWidget {
 
 class _SplashViewState extends State<SplashView>
     with SingleTickerProviderStateMixin {
-
   double _opacity = 0.0;
 
   @override
@@ -36,7 +35,6 @@ class _SplashViewState extends State<SplashView>
   }
 
   Future<void> checkLogin() async {
-
     final localDataSource = sl<AuthLocalDataSource>();
 
     final token = await localDataSource.getToken();
@@ -70,17 +68,14 @@ class _SplashViewState extends State<SplashView>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-
               const Gap(280),
 
               TweenAnimationBuilder<double>(
                 tween: Tween(begin: 0.8, end: 1.0),
                 duration: const Duration(milliseconds: 800),
                 curve: Curves.easeOutBack,
-                builder: (context, scale, child) => Transform.scale(
-                  scale: scale,
-                  child: child,
-                ),
+                builder: (context, scale, child) =>
+                    Transform.scale(scale: scale, child: child),
                 child: SvgPicture.asset("assets/logo/logo.svg"),
               ),
 
@@ -90,10 +85,8 @@ class _SplashViewState extends State<SplashView>
                 tween: Tween(begin: 40, end: 0),
                 duration: const Duration(milliseconds: 900),
                 curve: Curves.easeOutCubic,
-                builder: (context, value, child) => Transform.translate(
-                  offset: Offset(0, value),
-                  child: child,
-                ),
+                builder: (context, value, child) =>
+                    Transform.translate(offset: Offset(0, value), child: child),
                 child: Image.asset("assets/splash/splash.png"),
               ),
             ],

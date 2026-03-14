@@ -13,53 +13,38 @@ class ProductsShimmer extends StatelessWidget {
           crossAxisCount: 2,
           childAspectRatio: 0.75,
         ),
-        delegate: SliverChildBuilderDelegate(
-              (context, index) {
-            return Shimmer.fromColors(
-              baseColor: Colors.grey.shade300,
-              highlightColor: Colors.grey.shade100,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 120,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        height: 12,
-                        width: 80,
+        delegate: SliverChildBuilderDelegate((context, index) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 120,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
                         color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      const SizedBox(height: 6),
-                      Container(
-                        height: 10,
-                        width: 100,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(height: 6),
-                      Container(
-                        height: 10,
-                        width: 40,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(height: 12, width: 80, color: Colors.white),
+                    const SizedBox(height: 6),
+                    Container(height: 10, width: 100, color: Colors.white),
+                    const SizedBox(height: 6),
+                    Container(height: 10, width: 40, color: Colors.white),
+                  ],
                 ),
               ),
-            );
-          },
-          childCount: 6,
-        ),
+            ),
+          );
+        }, childCount: 6),
       ),
     );
   }

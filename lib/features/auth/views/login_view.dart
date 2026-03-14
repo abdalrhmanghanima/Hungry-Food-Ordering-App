@@ -23,21 +23,18 @@ class LoginView extends StatelessWidget {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: BlocListener<AuthCubit,AuthState>(
+      child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
-          if(state is LoginSuccess){
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Logged in Successfully")),
-            );
-            Navigator.push(
+          if (state is LoginSuccess) {
+            ScaffoldMessenger.of(
               context,
-              MaterialPageRoute(builder: (c) => Root()),
-            );
+            ).showSnackBar(SnackBar(content: Text("Logged in Successfully")));
+            Navigator.push(context, MaterialPageRoute(builder: (c) => Root()));
           }
           if (state is LoginError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
         child: Scaffold(
@@ -89,14 +86,13 @@ class LoginView extends StatelessWidget {
                             textColor: Colors.white,
                             text: "Login",
                             onTap: () {
-                              if (_formKey.currentState!.validate()){
+                              if (_formKey.currentState!.validate()) {
                                 context.read<AuthCubit>().login(
                                   email: emailController.text,
                                   password: passController.text,
                                   image: null,
                                 );
                               }
-
                             },
                           ),
                           Gap(15),

@@ -25,14 +25,9 @@ class _SpicySliderState extends State<SpicySlider> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Flexible(
           flex: 3,
-          child: Image.network(
-            widget.image,
-            fit: BoxFit.contain,
-            height: 220,
-          ),
+          child: Image.network(widget.image, fit: BoxFit.contain, height: 220),
         ),
 
         const Gap(10),
@@ -44,7 +39,7 @@ class _SpicySliderState extends State<SpicySlider> {
             children: [
               const CustomText(
                 text:
-                'Customize Your Burger\nTo Your Tastes.\nUltimate Experience',
+                    'Customize Your Burger\nTo Your Tastes.\nUltimate Experience',
               ),
 
               const Gap(10),
@@ -60,10 +55,7 @@ class _SpicySliderState extends State<SpicySlider> {
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text('🥶'),
-                  Text('🌶'),
-                ],
+                children: const [Text('🥶'), Text('🌶')],
               ),
             ],
           ),

@@ -32,7 +32,11 @@ class UserHeader extends StatelessWidget {
           ],
         ),
         Spacer(),
-        CircleAvatar(radius: 31,child: Icon(CupertinoIcons.person,color: Colors.white),backgroundColor: AppColors.primary,),
+        CircleAvatar(
+          radius: 31,
+          child: Icon(CupertinoIcons.person, color: Colors.white),
+          backgroundColor: AppColors.primary,
+        ),
       ],
     );
   }

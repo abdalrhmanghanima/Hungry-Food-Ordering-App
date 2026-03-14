@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hungry_app/core/di/di.dart';
 import 'package:hungry_app/features/auth/cubit/auth_cubit.dart';
+import 'package:hungry_app/features/cart/cubit/cart_cubit.dart';
 import 'package:hungry_app/features/home/cubit/home_cubit.dart';
 import 'package:hungry_app/features/product/cubit/product_options_cubit.dart';
 import 'package:hungry_app/splash.dart';
@@ -14,15 +15,10 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => sl<AuthCubit>(),
-        ),
-        BlocProvider(
-          create: (_) => sl<HomeCubit>(),
-        ),
-        BlocProvider(
-          create: (_) => sl<ProductOptionsCubit>(),
-        ),
+        BlocProvider(create: (_) => sl<AuthCubit>()),
+        BlocProvider(create: (_) => sl<HomeCubit>()),
+        BlocProvider(create: (_) => sl<ProductOptionsCubit>()),
+        BlocProvider(create: (_) => sl<CartCubit>()),
       ],
       child: MyApp(),
     ),

@@ -21,21 +21,18 @@ class SignupView extends StatelessWidget {
     TextEditingController nameController = TextEditingController();
     TextEditingController passController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    return BlocListener<AuthCubit,AuthState>(
+    return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if(state is SignUpSuccess){
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Register Success")),
-          );
-          Navigator.push(
+        if (state is SignUpSuccess) {
+          ScaffoldMessenger.of(
             context,
-            MaterialPageRoute(builder: (c) => Root()),
-          );
+          ).showSnackBar(SnackBar(content: Text("Register Success")));
+          Navigator.push(context, MaterialPageRoute(builder: (c) => Root()));
         }
         if (state is SignUpError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.message)));
         }
       },
       child: Scaffold(
@@ -44,7 +41,10 @@ class SignupView extends StatelessWidget {
           child: Column(
             children: [
               Gap(200),
-              SvgPicture.asset("assets/logo/logo.svg", color: AppColors.primary),
+              SvgPicture.asset(
+                "assets/logo/logo.svg",
+                color: AppColors.primary,
+              ),
               CustomText(
                 text: 'Welcome To Our Food App',
                 color: AppColors.primary,
@@ -87,12 +87,12 @@ class SignupView extends StatelessWidget {
                           textColor: Colors.white,
                           text: "Sign Up",
                           onTap: () {
-                            if (formKey.currentState!.validate()){
+                            if (formKey.currentState!.validate()) {
                               context.read<AuthCubit>().signUp(
-                                  name: nameController.text,
-                                  email: emailController.text,
-                                  password: passController.text,
-                                  phone: "01016548220",
+                                name: nameController.text,
+                                email: emailController.text,
+                                password: passController.text,
+                                phone: "01016548220",
                                 image: null,
                               );
                             }

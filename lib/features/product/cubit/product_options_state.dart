@@ -10,10 +10,7 @@ class ProductOptionsSuccess extends ProductOptionsState {
   final List<OptionEntity> toppings;
   final List<OptionEntity> sides;
 
-  ProductOptionsSuccess({
-    required this.toppings,
-    required this.sides,
-  });
+  ProductOptionsSuccess({required this.toppings, required this.sides});
 }
 
 class ProductOptionsError extends ProductOptionsState {

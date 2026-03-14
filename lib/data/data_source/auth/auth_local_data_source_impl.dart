@@ -5,7 +5,6 @@ import 'auth_local_data_source.dart';
 
 @LazySingleton(as: AuthLocalDataSource)
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
-
   @override
   Future<void> saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
@@ -23,5 +22,4 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove("token");
   }
-
 }

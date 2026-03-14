@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:hungry_app/features/cart/cubit/cart_cubit.dart';
 import 'package:hungry_app/features/product/cubit/product_options_cubit.dart';
 import 'package:hungry_app/features/product/cubit/product_options_state.dart';
 import 'package:hungry_app/features/product/widgets/options_shimmer.dart';
@@ -13,7 +14,12 @@ class ProductDetailsView extends StatefulWidget {
   final int id;
   final String image;
   final String price;
-  const ProductDetailsView({super.key, required this.id, required this.image, required this.price});
+  const ProductDetailsView({
+    super.key,
+    required this.id,
+    required this.image,
+    required this.price,
+  });
 
   @override
   State<ProductDetailsView> createState() => _ProductDetailsViewState();
@@ -21,11 +27,18 @@ class ProductDetailsView extends StatefulWidget {
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
   double value = 0.5;
+
+  int quantity = 1;
+
+  List<int> selectedToppings = [];
+
+  List<int> selectedSides = [];
   @override
   void initState() {
     super.initState();
     context.read<ProductOptionsCubit>().getProductOptions();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +53,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
           child: Icon(Icons.arrow_back),
         ),
       ),
-      body: BlocBuilder<ProductOptionsCubit,ProductOptionsState>(
+      body: BlocBuilder<ProductOptionsCubit, ProductOptionsState>(
         builder: (context, state) {
           if (state is ProductOptionsLoading) {
             return Padding(
@@ -56,7 +69,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               ),
             );
           }
-          if(state is ProductOptionsSuccess){
+          if (state is ProductOptionsSuccess) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: SingleChildScrollView(
@@ -82,11 +95,22 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                         children: List.generate(state.toppings.length, (index) {
                           final topping = state.toppings[index];
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
                             child: ToppingCard(
                               imageUrl: topping.image,
                               title: topping.name,
-                              onAdd: () {},
+                              isSelected: selectedToppings.contains(topping.id),
+                              onAdd: () {
+                                setState(() {
+                                  if (selectedToppings.contains(topping.id)) {
+                                    selectedToppings.remove(topping.id);
+                                  } else {
+                                    selectedToppings.add(topping.id);
+                                  }
+                                });
+                              },
                             ),
                           );
                         }),
@@ -102,11 +126,22 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                         children: List.generate(state.sides.length, (index) {
                           final sides = state.sides[index];
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
                             child: ToppingCard(
                               imageUrl: sides.image,
                               title: sides.name,
-                              onAdd: () {},
+                              isSelected: selectedSides.contains(sides.id),
+                              onAdd: () {
+                                setState(() {
+                                  if (selectedSides.contains(sides.id)) {
+                                    selectedSides.remove(sides.id);
+                                  } else {
+                                    selectedSides.add(sides.id);
+                                  }
+                                });
+                              },
                             ),
                           );
                         }),
@@ -143,10 +178,21 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText(text: 'Total', size: 20),
-                  CustomText(text: '\$ 18.9', size: 27),
+                  CustomText(text: '\$ ${widget.price}', size: 27),
                 ],
               ),
-              CustomButton(text: 'Add To Cart', onTap: () {}),
+              CustomButton(
+                text: 'Add To Cart',
+                onTap: () {
+                  context.read<CartCubit>().addToCart(
+                    productId: widget.id,
+                    quantity: quantity,
+                    spicy: value,
+                    toppings: selectedToppings,
+                    sides: selectedSides,
+                  );
+                },
+              ),
             ],
           ),
         ),

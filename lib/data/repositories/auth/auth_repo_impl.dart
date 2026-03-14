@@ -4,6 +4,7 @@ import 'package:hungry_app/domain/entities/auth/auth_entity.dart';
 import 'package:hungry_app/domain/repositories/auth/auth_repo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
+
 @LazySingleton(as: AuthRepo)
 class AuthRepoImpl implements AuthRepo {
   final AuthRemoteDataSource authRemoteDataSource;
@@ -25,16 +26,18 @@ class AuthRepoImpl implements AuthRepo {
       image: image,
     );
   }
+
   @override
   Future<AuthEntity> login({
     required String email,
     required String password,
     XFile? image,
-  }) async{
+  }) async {
     final result = await authRemoteDataSource.login(
       email: email,
       password: password,
-      image: image,);
+      image: image,
+    );
 
     await localDataSource.saveToken(result.data!.token!);
 

@@ -4,7 +4,14 @@ import '../core/constants/app_colors.dart';
 import 'custom_text.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.text, this.onTap,this.width,this.color, this.height});
+  const CustomButton({
+    super.key,
+    required this.text,
+    this.onTap,
+    this.width,
+    this.color,
+    this.height,
+  });
   final String text;
   final Function()? onTap;
   final double? width;
@@ -15,10 +22,11 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: width,height: height,
+        width: width,
+        height: height,
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         decoration: BoxDecoration(
-          color:color??AppColors.primary,
+          color: color ?? AppColors.primary,
           borderRadius: BorderRadius.circular(18),
         ),
         child: CustomText(text: text, color: Colors.white),

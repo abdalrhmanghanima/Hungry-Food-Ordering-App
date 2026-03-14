@@ -11,10 +11,7 @@ class HomeLoaded extends HomeState {
   final CategoriesEntity categories;
   final ProductsEntity products;
 
-  HomeLoaded({
-    required this.categories,
-    required this.products,
-  });
+  HomeLoaded({required this.categories, required this.products});
 }
 
 class HomeError extends HomeState {

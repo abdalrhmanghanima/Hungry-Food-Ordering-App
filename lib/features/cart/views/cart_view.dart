@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hungry_app/features/cart/cubit/cart_cubit.dart';
+import 'package:hungry_app/features/cart/cubit/cart_states.dart';
 import 'package:hungry_app/features/cart/widgets/cart_item.dart';
+import 'package:hungry_app/features/cart/widgets/cart_shimmer.dart';
 import 'package:hungry_app/features/checkout/views/checkout_view.dart';
 import '../../../shared/custom_button.dart';
 import '../../../shared/custom_text.dart';
@@ -12,12 +16,12 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
-  final int itemCount = 3;
   late List<int> quantities;
   @override
   void initState() {
-    quantities = List.generate(itemCount, (_) => 1);
+    quantities = [];
     super.initState();
+    context.read<CartCubit>().getCart();
   }
 
   void onAdd(int index) {
@@ -40,29 +44,53 @@ class _CartViewState extends State<CartView> {
         scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: ListView.builder(
-          padding: const EdgeInsets.only(bottom: 120, top: 15),
-          itemCount: itemCount,
-          itemBuilder: (context, index) {
+      body: BlocBuilder<CartCubit, CartState>(
+        builder: (context, state) {
+          if (state is CartLoading) {
+            return ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return const CartItemShimmer();
+              },
+            );
+          }
+          if (state is CartLoaded) {
+            final cart = state.cart;
+            if (quantities.length != cart.length) {
+              quantities = cart.map((e) => e.quantity).toList();
+            }
             return Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: CartItem(
-                image: 'assets/test/test.png',
-                text: 'Hamburger',
-                desc: 'Veggie Burger',
-                number: quantities[index],
-                onAdd: () {
-                  onAdd(index);
-                },
-                onMin: () {
-                  onMin(index);
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 120, top: 15),
+                itemCount: cart.length,
+                itemBuilder: (context, index) {
+                  final item = cart[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: CartItem(
+                      onRemove: () {
+                        context.read<CartCubit>().deleteItem(item.id);
+                      },
+                      image: item.image,
+                      text: item.name,
+                      desc: "Spicy ${item.spicy}",
+                      number: quantities[index],
+                      onAdd: () {
+                        onAdd(index);
+                      },
+                      onMin: () {
+                        onMin(index);
+                      },
+                    ),
+                  );
                 },
               ),
             );
-          },
-        ),
+          }
+          return SizedBox.shrink();
+        },
       ),
       bottomSheet: Container(
         height: 90,

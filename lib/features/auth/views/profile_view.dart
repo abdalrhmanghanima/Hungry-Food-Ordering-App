@@ -15,19 +15,19 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
- final TextEditingController _name=TextEditingController();
- final TextEditingController _email=TextEditingController();
- final TextEditingController _address=TextEditingController();
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _address = TextEditingController();
   @override
   void initState() {
-    _name.text='Ghanima';
-    _email.text='Ghanima@gmail.com';
-    _address.text='hay leeby';
+    _name.text = 'Ghanima';
+    _email.text = 'Ghanima@gmail.com';
+    _address.text = 'hay leeby';
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: AppColors.primary,
       appBar: AppBar(
@@ -73,7 +73,10 @@ class _ProfileViewState extends State<ProfileView> {
               Gap(25),
               CustomUserTextField(controller: _email, label: 'Email'),
               Gap(25),
-              CustomUserTextField(controller: _address, label: 'Delivery Address'),
+              CustomUserTextField(
+                controller: _address,
+                label: 'Delivery Address',
+              ),
               Gap(36),
               Divider(),
               Gap(36),
@@ -92,9 +95,8 @@ class _ProfileViewState extends State<ProfileView> {
                   text: '**** ***** 2342',
                   color: Colors.black,
                 ),
-                trailing: CustomText(text: 'Default',color: Colors.black,)
+                trailing: CustomText(text: 'Default', color: Colors.black),
               ),
-
             ],
           ),
         ),
@@ -103,12 +105,7 @@ class _ProfileViewState extends State<ProfileView> {
         height: 70,
         decoration: BoxDecoration(
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade800,
-              blurRadius: 20
-            )
-          ]
+          boxShadow: [BoxShadow(color: Colors.grey.shade800, blurRadius: 20)],
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -116,34 +113,33 @@ class _ProfileViewState extends State<ProfileView> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 30,vertical: 12),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                 decoration: BoxDecoration(
                   color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(15)
+                  borderRadius: BorderRadius.circular(15),
                 ),
                 child: Row(
                   children: [
-                    CustomText(text: 'Edit Profile',color: Colors.white,),
+                    CustomText(text: 'Edit Profile', color: Colors.white),
                     Gap(5),
-                    Icon(CupertinoIcons.pencil,color: Colors.white,)
+                    Icon(CupertinoIcons.pencil, color: Colors.white),
                   ],
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 30,vertical: 12),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: AppColors.primary),
-                    borderRadius: BorderRadius.circular(15)
+                  color: Colors.white,
+                  border: Border.all(color: AppColors.primary),
+                  borderRadius: BorderRadius.circular(15),
                 ),
 
-                child:Row(
+                child: Row(
                   children: [
-                    CustomText(text: 'Log Out',color:AppColors.primary,),
-                    Icon(Icons.logout,color: AppColors.primary,)
+                    CustomText(text: 'Log Out', color: AppColors.primary),
+                    Icon(Icons.logout, color: AppColors.primary),
                   ],
                 ),
-
               ),
             ],
           ),

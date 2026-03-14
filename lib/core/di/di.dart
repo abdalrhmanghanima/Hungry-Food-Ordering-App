@@ -7,5 +7,5 @@ final sl = GetIt.instance;
 
 @InjectableInit()
 Future<void> init() async {
-   sl.init();
+  sl.init();
 }

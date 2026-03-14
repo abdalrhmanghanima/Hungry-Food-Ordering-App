@@ -27,11 +27,7 @@ class OptionsShimmer extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Container(
-                  height: 10,
-                  width: 60,
-                  color: Colors.white,
-                )
+                Container(height: 10, width: 60, color: Colors.white),
               ],
             ),
           );

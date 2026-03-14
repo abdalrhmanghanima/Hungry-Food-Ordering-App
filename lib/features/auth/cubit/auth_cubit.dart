@@ -5,11 +5,12 @@ import 'package:hungry_app/domain/use_case/auth/sign_up_use_case.dart';
 import 'package:hungry_app/features/auth/cubit/auth_state.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
+
 @injectable
 class AuthCubit extends Cubit<AuthState> {
   final SignUpUseCase signUpUseCase;
   final LogInUseCase logInUseCase;
-  AuthCubit(this.signUpUseCase,this.logInUseCase) : super(AuthInitial());
+  AuthCubit(this.signUpUseCase, this.logInUseCase) : super(AuthInitial());
   Future<void> signUp({
     required String name,
     required String email,
@@ -52,10 +53,7 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     emit(LoginLoading());
     try {
-      final result = await logInUseCase(
-        email:email,
-        password:password
-      );
+      final result = await logInUseCase(email: email, password: password);
 
       emit(LoginSuccess(result));
     } catch (e) {

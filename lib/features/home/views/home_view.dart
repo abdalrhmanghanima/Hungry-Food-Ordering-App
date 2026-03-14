@@ -34,7 +34,6 @@ class _HomeViewState extends State<HomeView> {
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-
             /// APP BAR
             SliverAppBar(
               pinned: true,
@@ -45,11 +44,7 @@ class _HomeViewState extends State<HomeView> {
               flexibleSpace: Padding(
                 padding: const EdgeInsets.only(left: 20, top: 70, right: 20),
                 child: Column(
-                  children: const [
-                    UserHeader(),
-                    Gap(20),
-                    SearchField(),
-                  ],
+                  children: const [UserHeader(), Gap(20), SearchField()],
                 ),
               ),
             ),
@@ -85,48 +80,46 @@ class _HomeViewState extends State<HomeView> {
             /// PRODUCTS
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
-
                 if (state is HomeLoading) {
                   return const ProductsShimmer();
                 }
 
                 if (state is HomeLoaded) {
-
                   return SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 10,
+                    ),
                     sliver: SliverGrid(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.75,
-                      ),
-                      delegate: SliverChildBuilderDelegate(
-                            (context, index) {
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.75,
+                          ),
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final product = state.products.data![index];
 
-                          final product = state.products.data![index];
-
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) =>  ProductDetailsView(
-                                    id: product.id!,
-                                    image: product.image!,
-                                    price: product.price!,
-                                  ),
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ProductDetailsView(
+                                  id: product.id!,
+                                  image: product.image!,
+                                  price: product.price!,
                                 ),
-                              );
-                            },
-                            child: CardItem(
-                              image: product.image ?? '',
-                              text: product.name ?? '',
-                              desc: product.description ?? '',
-                              rate: product.rating ?? '',
-                            ),
-                          );
-                        },
-                        childCount: state.products.data!.length,
-                      ),
+                              ),
+                            );
+                          },
+                          child: CardItem(
+                            image: product.image ?? '',
+                            text: product.name ?? '',
+                            desc: product.description ?? '',
+                            rate: product.rating ?? '',
+                          ),
+                        );
+                      }, childCount: state.products.data!.length),
                     ),
                   );
                 }

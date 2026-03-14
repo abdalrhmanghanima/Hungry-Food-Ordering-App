@@ -1,4 +1,5 @@
 import 'package:hungry_app/domain/entities/product_options/product_options_entity.dart';
+
 class OptionData {
   int? id;
   String? name;
@@ -13,11 +14,7 @@ class OptionData {
   }
 
   OptionEntity toEntity() {
-    return OptionEntity(
-      id: id ?? 0,
-      name: name ?? '',
-      image: image ?? '',
-    );
+    return OptionEntity(id: id ?? 0, name: name ?? '', image: image ?? '');
   }
 
   Map<String, dynamic> toJson() {

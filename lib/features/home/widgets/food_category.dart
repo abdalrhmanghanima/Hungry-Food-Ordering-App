@@ -5,20 +5,25 @@ import '../../../core/constants/app_colors.dart';
 import '../../../shared/custom_text.dart';
 
 class FoodCategory extends StatefulWidget {
-  const FoodCategory({super.key, required this.selectedIndex, required this.category});
+  const FoodCategory({
+    super.key,
+    required this.selectedIndex,
+    required this.category,
+  });
   final int selectedIndex;
-   final List<CategoryEntity> category;
+  final List<CategoryEntity> category;
   @override
   State<FoodCategory> createState() => _FoodCategoryState();
 }
 
 class _FoodCategoryState extends State<FoodCategory> {
-late int selectedIndex;
-@override
+  late int selectedIndex;
+  @override
   void initState() {
-    selectedIndex=widget.selectedIndex;
+    selectedIndex = widget.selectedIndex;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -39,10 +44,7 @@ late int selectedIndex;
                     : Color(0xffF3F4F6),
                 borderRadius: BorderRadius.circular(20),
               ),
-              padding: EdgeInsets.symmetric(
-                horizontal: 27,
-                vertical: 15,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 27, vertical: 15),
               child: CustomText(
                 text: widget.category[index].name ?? "",
                 weight: FontWeight.w500,

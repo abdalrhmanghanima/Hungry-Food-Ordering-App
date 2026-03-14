@@ -3,11 +3,7 @@ class ProductsEntity {
   final String? message;
   final List<ProductEntity>? data;
 
-  ProductsEntity({
-    this.code,
-    this.message,
-    this.data,
-  });
+  ProductsEntity({this.code, this.message, this.data});
 }
 
 class ProductEntity {
