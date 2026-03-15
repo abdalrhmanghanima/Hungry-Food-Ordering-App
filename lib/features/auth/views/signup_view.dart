@@ -82,20 +82,26 @@ class SignupView extends StatelessWidget {
                           controller: passController,
                         ),
                         Gap(20),
-                        CustomAuthBtn(
-                          color: AppColors.primary,
-                          textColor: Colors.white,
-                          text: "Sign Up",
-                          onTap: () {
-                            if (formKey.currentState!.validate()) {
-                              context.read<AuthCubit>().signUp(
-                                name: nameController.text,
-                                email: emailController.text,
-                                password: passController.text,
-                                phone: "01016548220",
-                                image: null,
-                              );
-                            }
+                        BlocBuilder<AuthCubit, AuthState>(
+                          builder: (context, state) {
+                            return CustomAuthBtn(
+                              color: AppColors.primary,
+                              textColor: Colors.white,
+                              text: state is AuthLoading ? "Loading..." : "Sign Up",
+                              onTap: state is AuthLoading
+                                  ? null
+                                  : () {
+                                if (formKey.currentState!.validate()) {
+                                  context.read<AuthCubit>().signUp(
+                                    name: nameController.text,
+                                    email: emailController.text,
+                                    password: passController.text,
+                                    phone: "01016548220",
+                                    image: null,
+                                  );
+                                }
+                              },
+                            );
                           },
                         ),
                         Gap(10),

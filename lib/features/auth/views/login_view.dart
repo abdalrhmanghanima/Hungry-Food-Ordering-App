@@ -81,18 +81,25 @@ class LoginView extends StatelessWidget {
                             controller: passController,
                           ),
                           Gap(20),
-                          CustomAuthBtn(
-                            color: AppColors.primary,
-                            textColor: Colors.white,
-                            text: "Login",
-                            onTap: () {
-                              if (_formKey.currentState!.validate()) {
-                                context.read<AuthCubit>().login(
-                                  email: emailController.text,
-                                  password: passController.text,
-                                  image: null,
-                                );
-                              }
+                          BlocBuilder<AuthCubit, AuthState>(
+                            builder: (context, state) {
+
+                              return CustomAuthBtn(
+                                color: AppColors.primary,
+                                textColor: Colors.white,
+                                text: state is AuthLoading ? "Loading..." : "Login",
+                                onTap: state is AuthLoading
+                                    ? null
+                                    : () {
+                                  if (_formKey.currentState!.validate()) {
+                                    context.read<AuthCubit>().login(
+                                      email: emailController.text,
+                                      password: passController.text,
+                                      image: null,
+                                    );
+                                  }
+                                },
+                              );
                             },
                           ),
                           Gap(15),
