@@ -14,4 +14,5 @@ abstract class AuthRemoteDataSource {
     required String password,
     XFile? image,
   });
+  Future<void> logout();
 }

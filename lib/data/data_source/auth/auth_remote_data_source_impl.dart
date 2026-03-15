@@ -53,4 +53,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw Exception("Invalid server response");
     }
   }
+  @override
+  Future<void> logout() async {
+    await dio.post(ApiConstants.logOut);
+  }
 }

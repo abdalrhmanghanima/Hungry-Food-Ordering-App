@@ -7,7 +7,7 @@ import 'package:hungry_app/features/auth/cubit/auth_cubit.dart';
 import 'package:hungry_app/features/auth/cubit/auth_state.dart';
 import 'package:hungry_app/features/auth/views/signup_view.dart';
 import 'package:hungry_app/features/auth/widgets/custom_btn.dart';
-import 'package:hungry_app/root.dart';
+import 'package:hungry_app/features/root/views/root.dart';
 import 'package:hungry_app/shared/custom_text.dart';
 import 'package:hungry_app/shared/custom_textField.dart';
 
@@ -31,7 +31,7 @@ class LoginView extends StatelessWidget {
             ).showSnackBar(SnackBar(content: Text("Logged in Successfully")));
             Navigator.push(context, MaterialPageRoute(builder: (c) => Root()));
           }
-          if (state is LoginError) {
+          if (state is AuthError) {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(state.message)));

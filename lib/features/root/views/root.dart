@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hungry_app/core/constants/app_colors.dart';
-import 'package:hungry_app/features/auth/views/profile_view.dart';
+import 'package:hungry_app/features/profile/views/profile_view.dart';
 import 'package:hungry_app/features/cart/views/cart_view.dart';
 import 'package:hungry_app/features/home/views/home_view.dart';
 import 'package:hungry_app/features/orderHistory/views/order_history_view.dart';
@@ -14,30 +14,30 @@ class Root extends StatefulWidget {
 }
 
 class _RootState extends State<Root> {
-  late PageController controller = PageController();
-  late List<Widget> screens;
+
   int currentScreen = 0;
-  @override
-  void initState() {
-    screens = [HomeView(), CartView(), OrderHistoryView(), ProfileView()];
-    controller = PageController(initialPage: currentScreen);
-    super.initState();
-  }
+
+  final List<Widget> screens = [
+    const HomeView(),
+    const CartView(),
+    const OrderHistoryView(),
+    const ProfileView(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: controller,
-        physics: NeverScrollableScrollPhysics(),
+      body: IndexedStack(
+        index: currentScreen,
         children: screens,
       ),
+
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: AppColors.primary,
           borderRadius: BorderRadius.circular(30),
         ),
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: BottomNavigationBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -49,9 +49,8 @@ class _RootState extends State<Root> {
             setState(() {
               currentScreen = index;
             });
-            controller.jumpToPage(currentScreen);
           },
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.home),
               label: 'Home',

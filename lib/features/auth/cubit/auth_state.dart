@@ -4,21 +4,7 @@ abstract class AuthState {}
 
 class AuthInitial extends AuthState {}
 
-class SignUpLoading extends AuthState {}
-
-class SignUpSuccess extends AuthState {
-  final AuthEntity authEntity;
-
-  SignUpSuccess(this.authEntity);
-}
-
-class SignUpError extends AuthState {
-  final String message;
-
-  SignUpError(this.message);
-}
-
-class LoginLoading extends AuthState {}
+class AuthLoading extends AuthState {}
 
 class LoginSuccess extends AuthState {
   final AuthEntity authEntity;
@@ -26,8 +12,16 @@ class LoginSuccess extends AuthState {
   LoginSuccess(this.authEntity);
 }
 
-class LoginError extends AuthState {
+class SignUpSuccess extends AuthState {
+  final AuthEntity authEntity;
+
+  SignUpSuccess(this.authEntity);
+}
+
+class AuthLoggedOut extends AuthState {}
+
+class AuthError extends AuthState {
   final String message;
 
-  LoginError(this.message);
+  AuthError(this.message);
 }

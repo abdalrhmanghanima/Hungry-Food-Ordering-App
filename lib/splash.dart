@@ -5,7 +5,7 @@ import 'package:hungry_app/core/constants/app_colors.dart';
 import 'package:hungry_app/core/di/di.dart';
 import 'package:hungry_app/data/data_source/auth/auth_local_data_source.dart';
 import 'package:hungry_app/features/auth/views/signup_view.dart';
-import 'package:hungry_app/root.dart';
+import 'package:hungry_app/features/root/views/root.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -35,18 +35,19 @@ class _SplashViewState extends State<SplashView>
   }
 
   Future<void> checkLogin() async {
-    final localDataSource = sl<AuthLocalDataSource>();
+    final local = sl<AuthLocalDataSource>();
+    final token = await local.getToken();
 
-    final token = await localDataSource.getToken();
+    print("TOKEN FROM STORAGE = $token");
 
     await Future.delayed(const Duration(seconds: 2));
 
     if (!mounted) return;
 
-    if (token != null) {
+    if (token != null && token.isNotEmpty) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => Root()),
+        MaterialPageRoute(builder: (_) => const Root()),
       );
     } else {
       Navigator.pushReplacement(

@@ -32,17 +32,26 @@ import 'package:hungry_app/data/data_source/product_options/product_options_remo
     as _i829;
 import 'package:hungry_app/data/data_source/product_options/product_options_remote_data_source_impl.dart'
     as _i762;
+import 'package:hungry_app/data/data_source/profile/profile_remote_data_source.dart'
+    as _i169;
+import 'package:hungry_app/data/data_source/profile/profile_remote_data_source_impl.dart'
+    as _i482;
 import 'package:hungry_app/data/repositories/auth/auth_repo_impl.dart' as _i952;
 import 'package:hungry_app/data/repositories/cart/cart_repo_impl.dart' as _i611;
 import 'package:hungry_app/data/repositories/home/home_repo_impl.dart' as _i780;
 import 'package:hungry_app/data/repositories/product_options/product_options_repo_impl.dart'
     as _i697;
+import 'package:hungry_app/data/repositories/profile/profile_repo_impl.dart'
+    as _i387;
 import 'package:hungry_app/domain/repositories/auth/auth_repo.dart' as _i870;
 import 'package:hungry_app/domain/repositories/cart/cart_repo.dart' as _i121;
 import 'package:hungry_app/domain/repositories/home/home_repo.dart' as _i777;
 import 'package:hungry_app/domain/repositories/product_options/product_options_repo.dart'
     as _i890;
+import 'package:hungry_app/domain/repositories/profile/profile_repo.dart'
+    as _i660;
 import 'package:hungry_app/domain/use_case/auth/login_use_case.dart' as _i938;
+import 'package:hungry_app/domain/use_case/auth/logout_use_case.dart' as _i339;
 import 'package:hungry_app/domain/use_case/auth/sign_up_use_case.dart' as _i343;
 import 'package:hungry_app/domain/use_case/cart/add_to_cart_use_case.dart'
     as _i569;
@@ -58,11 +67,16 @@ import 'package:hungry_app/domain/use_case/product_options/get_side_options_use_
     as _i599;
 import 'package:hungry_app/domain/use_case/product_options/get_toppings_use_case.dart'
     as _i765;
+import 'package:hungry_app/domain/use_case/profile/get_profile_use_case.dart'
+    as _i777;
+import 'package:hungry_app/domain/use_case/profile/update_profile_use_case.dart'
+    as _i983;
 import 'package:hungry_app/features/auth/cubit/auth_cubit.dart' as _i679;
 import 'package:hungry_app/features/cart/cubit/cart_cubit.dart' as _i289;
 import 'package:hungry_app/features/home/cubit/home_cubit.dart' as _i505;
 import 'package:hungry_app/features/product/cubit/product_options_cubit.dart'
     as _i819;
+import 'package:hungry_app/features/profile/cubit/profile_cubit.dart' as _i467;
 import 'package:injectable/injectable.dart' as _i526;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -103,6 +117,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i817.AuthLocalDataSource>(),
       ),
     );
+    gh.lazySingleton<_i169.ProfileRemoteDataSource>(
+      () => _i482.ProfileRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i196.GetCategoriesUseCase>(
       () => _i196.GetCategoriesUseCase(gh<_i777.HomeRepo>()),
     );
@@ -120,9 +137,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i829.ProductOptionsRemoteDataSource>(),
       ),
     );
-    gh.factory<_i679.AuthCubit>(
-      () =>
-          _i679.AuthCubit(gh<_i343.SignUpUseCase>(), gh<_i938.LogInUseCase>()),
+    gh.lazySingleton<_i660.ProfileRepo>(
+      () => _i387.ProfileRepoImpl(gh<_i169.ProfileRemoteDataSource>()),
     );
     gh.lazySingleton<_i599.GetSideOptionsUseCase>(
       () => _i599.GetSideOptionsUseCase(gh<_i890.ProductOptionsRepo>()),
@@ -145,6 +161,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i196.GetCategoriesUseCase>(),
       ),
     );
+    gh.factory<_i983.UpdateProfileUseCase>(
+      () => _i983.UpdateProfileUseCase(gh<_i660.ProfileRepo>()),
+    );
+    gh.factory<_i339.LogoutUseCase>(
+      () => _i339.LogoutUseCase(gh<_i870.AuthRepo>()),
+    );
+    gh.factory<_i777.GetProfileUseCase>(
+      () => _i777.GetProfileUseCase(gh<_i660.ProfileRepo>()),
+    );
     gh.factory<_i289.CartCubit>(
       () => _i289.CartCubit(
         gh<_i569.AddToCartUseCase>(),
@@ -156,6 +181,19 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i819.ProductOptionsCubit(
         gh<_i765.GetToppingsUseCase>(),
         gh<_i599.GetSideOptionsUseCase>(),
+      ),
+    );
+    gh.factory<_i679.AuthCubit>(
+      () => _i679.AuthCubit(
+        gh<_i343.SignUpUseCase>(),
+        gh<_i938.LogInUseCase>(),
+        gh<_i339.LogoutUseCase>(),
+      ),
+    );
+    gh.factory<_i467.ProfileCubit>(
+      () => _i467.ProfileCubit(
+        gh<_i777.GetProfileUseCase>(),
+        gh<_i983.UpdateProfileUseCase>(),
       ),
     );
     return this;

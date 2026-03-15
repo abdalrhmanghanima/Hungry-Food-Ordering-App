@@ -17,6 +17,13 @@ class CartCubit extends Cubit<CartState> {
     this.deleteCartItemUseCase,
   ) : super(CartInitial());
 
+  double getTotalPrice(cart) {
+    return cart.fold(
+      0.0,
+          (sum, item) => sum + item.price,
+    );
+  }
+
   Future<void> getCart() async {
     emit(CartLoading());
 

@@ -7,7 +7,7 @@ import 'package:hungry_app/features/auth/cubit/auth_cubit.dart';
 import 'package:hungry_app/features/auth/cubit/auth_state.dart';
 import 'package:hungry_app/features/auth/views/login_view.dart';
 import 'package:hungry_app/features/auth/widgets/custom_btn.dart';
-import 'package:hungry_app/root.dart';
+import 'package:hungry_app/features/root/views/root.dart';
 
 import '../../../shared/custom_text.dart';
 import '../../../shared/custom_textField.dart';
@@ -29,7 +29,7 @@ class SignupView extends StatelessWidget {
           ).showSnackBar(SnackBar(content: Text("Register Success")));
           Navigator.push(context, MaterialPageRoute(builder: (c) => Root()));
         }
-        if (state is SignUpError) {
+        if (state is AuthError) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(state.message)));

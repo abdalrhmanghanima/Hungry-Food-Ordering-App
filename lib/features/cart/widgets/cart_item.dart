@@ -16,11 +16,13 @@ class CartItem extends StatelessWidget {
     this.onRemove,
     required this.number,
   });
+
   final String image, text, desc;
   final Function()? onAdd;
   final Function()? onMin;
   final Function()? onRemove;
   final int number;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -28,16 +30,25 @@ class CartItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.network(image, width: 100),
-                CustomText(text: text, weight: FontWeight.bold),
-                CustomText(text: desc),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.network(image, width: 100),
+                  CustomText(
+                    text: text,
+                    weight: FontWeight.bold,
+                  ),
+                  CustomText(
+                    text: desc,
+                  ),
+                ],
+              ),
             ),
+
+            const Gap(10),
+
             Column(
               children: [
                 Row(
@@ -46,37 +57,46 @@ class CartItem extends StatelessWidget {
                       onTap: onMin,
                       child: CircleAvatar(
                         backgroundColor: AppColors.primary,
-                        child: Icon(CupertinoIcons.minus, color: Colors.white),
+                        child: const Icon(
+                          CupertinoIcons.minus,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                    Gap(20),
+                    const Gap(20),
                     CustomText(
                       text: number.toString(),
                       weight: FontWeight.w400,
                       size: 20,
                     ),
-                    Gap(20),
+                    const Gap(20),
                     GestureDetector(
                       onTap: onAdd,
                       child: CircleAvatar(
                         backgroundColor: AppColors.primary,
-                        child: Icon(CupertinoIcons.add, color: Colors.white),
+                        child: const Icon(
+                          CupertinoIcons.add,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
                 ),
-                Gap(20),
+                const Gap(20),
                 GestureDetector(
                   onTap: onRemove,
                   child: Container(
                     height: 43,
-                    width: 145,
+                    width: 120,
                     decoration: BoxDecoration(
                       color: AppColors.primary,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Center(
-                      child: CustomText(text: 'Remove', color: Colors.white),
+                    child: const Center(
+                      child: CustomText(
+                        text: 'Remove',
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),

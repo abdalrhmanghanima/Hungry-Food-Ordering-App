@@ -6,6 +6,7 @@ import 'package:hungry_app/features/auth/cubit/auth_cubit.dart';
 import 'package:hungry_app/features/cart/cubit/cart_cubit.dart';
 import 'package:hungry_app/features/home/cubit/home_cubit.dart';
 import 'package:hungry_app/features/product/cubit/product_options_cubit.dart';
+import 'package:hungry_app/features/profile/cubit/profile_cubit.dart';
 import 'package:hungry_app/splash.dart';
 
 void main() async {
@@ -19,6 +20,9 @@ void main() async {
         BlocProvider(create: (_) => sl<HomeCubit>()),
         BlocProvider(create: (_) => sl<ProductOptionsCubit>()),
         BlocProvider(create: (_) => sl<CartCubit>()),
+        BlocProvider(
+          create: (_) => sl<ProfileCubit>()..getProfile(),
+        ),
       ],
       child: MyApp(),
     ),

@@ -34,7 +34,6 @@ class _HomeViewState extends State<HomeView> {
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            /// APP BAR
             SliverAppBar(
               pinned: true,
               elevation: 0,
@@ -49,7 +48,6 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
 
-            /// CATEGORY
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
                 if (state is HomeLoading) {
@@ -77,7 +75,6 @@ class _HomeViewState extends State<HomeView> {
               },
             ),
 
-            /// PRODUCTS
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
                 if (state is HomeLoading) {

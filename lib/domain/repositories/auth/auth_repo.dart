@@ -14,4 +14,5 @@ abstract class AuthRepo {
     required String password,
     XFile? image,
   });
+  Future<void> logout();
 }
